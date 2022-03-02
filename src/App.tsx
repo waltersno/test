@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import classes from './app.module.scss';
+import { Routes, Route } from 'react-router-dom';
+import { HomePage } from './pages/Home';
+import { CommentPage } from './pages/Comment';
+import { useLocation } from 'react-router-dom';
 
-function App() {
+const App = () => {
+  const location = useLocation();
+  const [locationChanges, setLocationChanges] = React.useState<number>(0);
+  
+  React.useEffect(() => {
+    setLocationChanges((prev) => prev + 1);
+  }, [location]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className={classes.app}>
+        <Routes>
+          <Route path="/" element={<HomePage pageChanges={locationChanges}/>} />
+          <Route path="/:id" element={<CommentPage pageChanges={locationChanges}/>} />
+        </Routes>
+      </div>
   );
-}
+};
 
 export default App;
